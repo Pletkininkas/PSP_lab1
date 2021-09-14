@@ -3,6 +3,9 @@ package validators;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -12,12 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  */
 
 public class PhoneValidatorTest {
-
+    
+    static Map<String, Integer> rules;
     static PhoneValidator phoneValidator;
 
     @BeforeAll
     public static void setupEnv() {
-        phoneValidator = new PhoneValidator();
+        rules = new HashMap<String, Integer>(){{
+            put("+370", 8);
+        }};
+        phoneValidator = new PhoneValidator(rules);
     }
 
     @Test
