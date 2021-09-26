@@ -14,6 +14,9 @@ public class PhoneValidator {
     }
 
     public boolean validatePhone(String number, String country) {
+        if (number == null || country == null)
+            return false;
+
         String prefix = prefixes.get(country);
         int length = lengths.get(country);
 

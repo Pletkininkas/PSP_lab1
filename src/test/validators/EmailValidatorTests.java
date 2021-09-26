@@ -20,8 +20,7 @@ public class EmailValidatorTests {
     @Test
     void TestValidateEmail_EmailIsValid_ExpectedResultTrue()
     {
-        boolean s = emailValidator.validateEmail("qwerty@gmail.com");
-        assertTrue(s);
+        assertTrue(emailValidator.validateEmail("qwerty@gmail.com"));
     }
 
     @Test

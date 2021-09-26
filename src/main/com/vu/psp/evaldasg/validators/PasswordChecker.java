@@ -20,6 +20,9 @@ public class PasswordChecker {
         boolean upperCase = false;
         boolean specialSymbol = false;
 
+        if (password == null)
+            return false;
+
         if (length > password.length())
             return false;
 
