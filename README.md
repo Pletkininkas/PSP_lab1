@@ -25,3 +25,8 @@ I would add null checks for String variables.
 More tests for email in different cases according to previously mention resource.
 Would change the validation implementation in PhoneValidator since passed variable minLength is redundant.
 Check correct lengths for input values according to validation rules.
+I would rename PasswordCheckerTests into PasswordCheckerTest since it is Unit test class. Resource: https://www.petrikainulainen.net/programming/testing/writing-clean-tests-naming-matters/#:~:text=what%20this%20means.-,Naming%20Test%20Classes,-When%20we%20think
+I would add tests to test edge cases according to documentation of for example email rules.
+
+I honestly liked usage of CsvSource in PhoneValidatorTests.
+I had also similar approach in PhoneValidator rules format. I think I like this approach way more than mine.
