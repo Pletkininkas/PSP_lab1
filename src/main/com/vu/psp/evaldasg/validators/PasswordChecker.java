@@ -2,21 +2,14 @@ package com.vu.psp.evaldasg.validators;
 
 public class PasswordChecker {
 
-    final char[] specialSymbols;
+    private char[] specialCharacters;
+    private final int length;
 
-    public PasswordChecker() {
-        specialSymbols = "_)(+=?".toCharArray();
+    public PasswordChecker(int length) {
+        this.length = length;
     }
 
-    public PasswordChecker(String specialSymbols) {
-        this.specialSymbols = specialSymbols.toCharArray();
-    }
-
-    public PasswordChecker(char[] specialSymbols) {
-        this.specialSymbols = specialSymbols;
-    }
-
-    public boolean validatePassword(int length, String password) {
+    public boolean validate(String password) {
         boolean upperCase = false;
         boolean specialSymbol = false;
 
@@ -30,8 +23,8 @@ public class PasswordChecker {
             char currentChar = password.charAt(i);
             if (currentChar >= 65 && currentChar <= 90)
                 upperCase = true;
-            for(int j = 0; j < specialSymbols.length; j++) {
-                if (currentChar == specialSymbols[j]) {
+            for(int j = 0; j < specialCharacters.length; j++) {
+                if (currentChar == specialCharacters[j]) {
                     specialSymbol = true;
                     break;
                 }
@@ -41,5 +34,9 @@ public class PasswordChecker {
         }
 
         return upperCase && specialSymbol;
+    }
+
+    public void setCustomCharacters(String characters) {
+        this.specialCharacters = characters.toCharArray();
     }
 }

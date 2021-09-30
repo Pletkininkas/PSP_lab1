@@ -5,7 +5,13 @@ import java.util.List;
 
 public class EmailValidator {
 
-    public boolean validateEmail(String email) {
+    private List<String> validDomains = new ArrayList<>();
+
+    public void setСorrectDomain(String domain) {
+        validDomains.add(domain);
+    }
+
+    public boolean validate(String email) {
         if (email == null)
             return false;
         String value = email.toLowerCase();
@@ -41,10 +47,16 @@ public class EmailValidator {
     private boolean validateDomain(String domain) {
         int domainLength = domain.length();
         List<String> labels = new ArrayList<>();
-        if (domain.charAt(0) == '-' || domain.charAt(domainLength-1) == '-')
+
+        if (domain.charAt(0) == '[' && domain.charAt(domainLength - 1) == ']') // [192.168.0.1] or [ipv6:2001:db8::1]
+            return validateIfInternationalDomain(domain);
+
+        if (domain.charAt(0) == '-' || domain.charAt(domainLength - 1) == '-')
             return false;
+
         String temp = "";
-        for(int i = 0; i < domainLength; i++) {
+
+        for (int i = 0; i < domainLength; i++) {
             char currentChar = domain.charAt(i);
             if (currentChar == '.' || (i + 1) == domainLength) {
                 if ((i + 1) == domainLength)
@@ -61,11 +73,73 @@ public class EmailValidator {
             if (s.length() > 63)
                 return false;
         }
-        // Check if valid domain. Correct test  is with constant gmail.com
-        if (!domain.equals("gmail.com"))
-            return false;
 
-        return true;
+        return validDomains.contains(domain);
+    }
+
+    private boolean validateIfInternationalDomain(String domain) {
+        int domainLength = domain.length();
+
+        if (domain.startsWith("ipv6:", 1)) {
+            String internationalizedDomain = domain.substring(6, domainLength - 1);
+            String temp = "";
+            List<String> parts = new ArrayList<>();
+            int counter = 0;
+            int hasDoubleColons = 0;
+            for (int i = 0; i < internationalizedDomain.length(); i++) {
+                char current = internationalizedDomain.charAt(i);
+                counter++;
+                if (current == ':') {
+                    if ((i + 1) != (internationalizedDomain.length()) && internationalizedDomain.charAt(i + 1) == ':') {
+                        hasDoubleColons++;
+                        i++;
+                    }
+                    parts.add(temp);
+                    temp = "";
+                    counter = 0;
+                    continue;
+                }
+                if (counter > 4)
+                    return false;
+                if (parts.size() > 8)
+                    return false;
+                if (isDigit(current) || isHexLetter(current)) {
+                    temp += current;
+                } else {
+                    return false;
+                }
+            }
+            parts.add(temp);
+            if (parts.contains("") || (hasDoubleColons > 1) || (hasDoubleColons == 0 && parts.size() != 8))
+                return false;
+        } else {
+            String internationalizedDomain = domain.substring(1, domainLength - 1); // [192.168.2.1]
+            String temp = "";
+            List<String> parts = new ArrayList<>();
+            int counter = 0;
+            for (int i = 0; i < internationalizedDomain.length(); i++) {
+                char current = internationalizedDomain.charAt(i);
+                counter++;
+                if (current == '.') {
+                    parts.add(temp);
+                    temp = "";
+                    counter = 0;
+                    continue;
+                }
+                if (counter > 3)
+                    return false;
+                if (parts.size() > 4)
+                    return false;
+                if (isDigit(current)) {
+                    temp += current;
+                    if (Integer.parseInt(temp) > 255)
+                        return false;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return validDomains.contains(domain);
     }
 
     private String getLp(String email) {
@@ -73,14 +147,14 @@ public class EmailValidator {
     }
 
     private String getDomain(String email) {
-        return email.substring(email.indexOf("@")+1);
+        return email.substring(email.indexOf("@") + 1);
     }
 
     private boolean validateLp(String lp) {
         int lpLength = lp.length();
         if (lpLength == 0 || lpLength > 64)
             return false;
-        if (!(lp.charAt(0) != '.' && lp.charAt(lpLength-1) != '.'))
+        if (!(lp.charAt(0) != '.' && lp.charAt(lpLength - 1) != '.'))
             return false;
         if (lpContainsMultipleDots(lp, lpLength))
             return false;
@@ -112,11 +186,20 @@ public class EmailValidator {
     }
 
     private boolean isSymbolCorrectInLp(char c) {
-        return c == '!' || (c >= 35 && c <= 39) ||
+        return c == '!' || (c >= '#' && c <= '\'') ||
                 c == '*' || c == '+' ||
                 c == '-' || c == '/' ||
-                (c >= 48 && c <= 57) ||
+                (c >= '0' && c <= '9') ||
                 c == '=' || c == '?' ||
-                (c >= 94 && c <= 126);
+                (c >= '^' && c <= '~');
     }
+
+    private boolean isDigit(char c) {
+        return (c >= '0' && c <= '9');
+    }
+
+    private boolean isHexLetter(char c) {
+        return (c >= 'a' && c <= 'f');
+    }
+
 }
