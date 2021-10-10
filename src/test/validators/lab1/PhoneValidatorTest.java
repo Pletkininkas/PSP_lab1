@@ -30,6 +30,12 @@ public class PhoneValidatorTest {
     @Test
     public void Should_ValidatePhoneNumber_When_PhoneNumberIsCorrect() {
         String phoneNumber = "868123456";
+        String newPhoneNumber = null;
+        try {
+            newPhoneNumber = phoneValidator.validate(phoneNumber);
+        } catch(InvalidPhoneNumberException e) {
+            e.printStackTrace();
+        }
 
         assertEquals("+37068123456", phoneValidator.validate(phoneNumber));
     }
@@ -37,8 +43,13 @@ public class PhoneValidatorTest {
     @Test
     public void Should_ValidatePhoneNumber_When_PhoneNumberIsCorrectWithCompleteForm() {
         String phoneNumber = "+37068123678";
-
-        assertEquals("+37068123678", phoneValidator.validate(phoneNumber));
+        String newPhoneNumber = null;
+        try {
+            newPhoneNumber = phoneValidator.validate(phoneNumber);
+        } catch(InvalidPhoneNumberException e) {
+            e.printStackTrace();
+        }
+        assertEquals("+37068123678", newPhoneNumber);
     }
 
     @Test

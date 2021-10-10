@@ -24,7 +24,7 @@ public class EmailValidatorTest {
     public void Should_ValidateEmail_When_EmailIsCorrect() {
         String email = "test.google4~_-09ASZ+56ual.proceed.com@example.com";
 
-        emailValidator.validate(email);
+        assertDoesNotThrow(() -> emailValidator.validate(email));
     }
 
     @Test

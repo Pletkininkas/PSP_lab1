@@ -30,7 +30,7 @@ public class PasswordCheckerTest {
     public void Should_Not_ThrowException_When_PasswordIsCorrect() {
         String password = "ASd123a)s_d123";
 
-        passwordChecker.validate(password);
+        assertDoesNotThrow(() -> passwordChecker.validate(password));
     }
 
     @Test
