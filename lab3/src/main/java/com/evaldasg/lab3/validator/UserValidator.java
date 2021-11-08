@@ -4,24 +4,16 @@ import businessRequirements.Validations.EmailValidator;
 import businessRequirements.Validations.PasswordChecker;
 import businessRequirements.Validations.PhoneValidator;
 import com.evaldasg.lab3.entity.User;
-import com.evaldasg.lab3.validator.constant.UserField;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.List;
 
 public class UserValidator {
 
     private final PasswordChecker passwordChecker = new PasswordChecker();
     private final EmailValidator emailValidator = new EmailValidator();
     private final PhoneValidator phoneValidator = new PhoneValidator();
-
-    public void validateUser(User user, List<UserField> userFields) {
-        if (userFields.contains(UserField.PASSWORD)) validatePassword(user.getPassword());
-        if (userFields.contains(UserField.EMAIL)) validateEmail(user.getEmail());
-        if (userFields.contains(UserField.PHONE_NUMBER)) validatePhoneNumber(user.getPhoneNumber());
-    }
 
     public void validateUser(User user) {
         validatePassword(user.getPassword());

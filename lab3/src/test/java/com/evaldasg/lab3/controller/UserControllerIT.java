@@ -87,19 +87,19 @@ public class UserControllerIT {
     }
 
     @Test
-    void testUpdateDoctor() {
+    void testUpdateUser() {
         WebTestClient
                 .bindToServer()
                 .baseUrl("http://localhost:" + port)
                 .build()
-                .patch()
+                .put()
                 .uri("/").bodyValue(user)
                 .exchange()
                 .expectStatus().isNoContent();
     }
 
     @Test
-    void testDeleteDoctorById() {
+    void testDeleteUserById() {
         User newUser = new User("Username", "Surname", "+37063123823", "user@gmail.com", "User location", "qwasDD!_qw123");
         userService.add(newUser);
         WebTestClient

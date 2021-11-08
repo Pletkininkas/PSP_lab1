@@ -18,27 +18,24 @@ public class UserController {
     UserService userService;
 
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<User>> getAllDoctors() {
+    public ResponseEntity<List<User>> getAll() {
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping(path = "/{id}", produces = {"application/json"})
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<User> getById(@PathVariable Long id) {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<User> addUser(@RequestBody User doctor) {
-        val addedUser = userService.add(doctor);
-
-        if (addedUser == null)
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<User> add(@RequestBody User user) {
+        val addedUser = userService.add(user);
 
         return new ResponseEntity<>(addedUser, HttpStatus.CREATED);
     }
 
-    @PatchMapping()
-    public ResponseEntity<User> updateDiagnosis(@RequestBody User user) {
+    @PutMapping()
+    public ResponseEntity<User> update(@RequestBody User user) {
         if (user.getId() == null)
             return ResponseEntity.badRequest().build();
 

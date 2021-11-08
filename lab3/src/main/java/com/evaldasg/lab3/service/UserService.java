@@ -4,11 +4,9 @@ import com.evaldasg.lab3.entity.User;
 import com.evaldasg.lab3.error.UserNotFoundException;
 import com.evaldasg.lab3.repository.UserRepository;
 import com.evaldasg.lab3.validator.UserValidator;
-import com.evaldasg.lab3.validator.constant.UserField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -34,11 +32,7 @@ public class UserService {
     }
 
     public void update(User user) {
-        List<UserField> updateFields = new ArrayList<>();
-        if (user.getEmail() != null) updateFields.add(UserField.EMAIL);
-        if (user.getPassword() != null) updateFields.add(UserField.PASSWORD);
-        if (user.getPhoneNumber() != null) updateFields.add(UserField.PHONE_NUMBER);
-        userValidator.validateUser(user, updateFields);
+        userValidator.validateUser(user);
 
         userRepository.save(user);
     }

@@ -106,7 +106,7 @@ public class UserControllerTest {
         String userJson = objectMapper.writeValueAsString(user);
 
         RequestBuilder rb = MockMvcRequestBuilders
-                .patch("/")
+                .put("/")
                 .content(userJson)
                 .contentType(MediaType.APPLICATION_JSON);
 

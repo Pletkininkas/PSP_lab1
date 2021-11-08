@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class UserTest {
 
     @Test
-    void testDoctorCreationWithAllFieldsSet() {
+    void testUserCreationWithAllFieldsSet() {
         User user = new User(1L, "Name", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         assertAll("Test User constructor",
                 () -> assertEquals(1L, user.getId()),
@@ -22,7 +22,7 @@ public class UserTest {
     }
 
     @Test
-    void testDoctorNewCreationToDaoConstructor() {
+    void testUserNewCreationToDaoConstructor() {
         User user = new User("Name", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         assertAll("Test User constructor",
                 () -> assertNull(user.getId()),
