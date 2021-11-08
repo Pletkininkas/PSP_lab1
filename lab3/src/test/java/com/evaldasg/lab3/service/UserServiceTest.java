@@ -26,10 +26,11 @@ public class UserServiceTest {
     UserService userService;
 
     @Test
-    void testFindAll() {
+    void testFindAllUsers() {
         User user1 = new User(1L, "Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
         User user2 = new User(2L, "Test2", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
         List<User> users = new ArrayList<>();
+
         users.add(user1);
         users.add(user2);
 
@@ -39,7 +40,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testFindById() {
+    void testFindUserById() {
         Long id = 4L;
         User user = new User(id, "Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
 
@@ -49,32 +50,33 @@ public class UserServiceTest {
     }
 
     @Test
-    void testAdd() {
+    void testAddUser() {
         User user = new User("Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
-        User createdUser = new User(1L, "Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
+        User userRepositoryResponse = new User(1L, "Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
 
-        when(userRepository.save(Mockito.any(User.class))).thenReturn(createdUser);
+        when(userRepository.save(Mockito.any(User.class))).thenReturn(userRepositoryResponse);
 
-        userService.add(user);
+        User createdUser = userService.add(user);
 
+        assertEquals(userRepositoryResponse, createdUser);
         verify(userRepository).save(Mockito.any(User.class));
     }
 
     @Test
-    void testUpdate() {
+    void testUpdateUser() {
         User user = new User(1L, "Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
         User updatedUser = new User(1L, "Test3", "Adasddq", "+37069934333", "notest@test.com", "Locationplace", "Paerw123_");
 
         when(userRepository.save(user)).thenReturn(updatedUser);
 
-        userService.update(user);
-
+        assertEquals(updatedUser, userService.update(user));
         verify(userRepository).save(user);
     }
 
     @Test
-    void testDeleteById() {
+    void testDeleteUserById() {
         userService.deleteById(1L);
+
         verify(userRepository).deleteById(Mockito.anyLong());
     }
 }

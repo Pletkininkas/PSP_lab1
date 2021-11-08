@@ -19,7 +19,7 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void testSave() {
+    public void testSaveUser() {
         User user = new User("Name", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         userRepository.save(user);
         User newUser = userRepository.findById(user.getId()).get();
@@ -31,7 +31,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testUpdate() {
+    public void testUpdateUser() {
         User user = new User("Name", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         userRepository.save(user);
         User insertedUser = userRepository.findById(user.getId()).get();
@@ -55,7 +55,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testFindAll() {
+    public void testFindAllUsers() {
         User user1 = new User("Test1", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         User user2 = new User("Test2", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         userRepository.save(user1);
@@ -67,7 +67,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testFindById() {
+    public void testFindUserById() {
         User user1 = new User("Test1", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         User user2 = new User("Test2", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         userRepository.save(user1);
@@ -79,7 +79,7 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void testDeleteById() {
+    public void testDeleteUserById() {
         User user = new User("Test1", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         userRepository.save(user);
 

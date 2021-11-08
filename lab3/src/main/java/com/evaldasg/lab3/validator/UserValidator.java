@@ -11,6 +11,8 @@ import java.io.IOException;
 
 public class UserValidator {
 
+    private final int minPasswordLength = 8;
+
     private final PasswordChecker passwordChecker = new PasswordChecker();
     private final EmailValidator emailValidator = new EmailValidator();
     private final PhoneValidator phoneValidator = new PhoneValidator();
@@ -22,7 +24,6 @@ public class UserValidator {
     }
 
     private void validatePassword(String password) {
-        int minPasswordLength = 8;
         try {
             throwBadRequestStatusIfFalse(passwordChecker.hasSpecialCharacter(password), "Password should have special character.");
             throwBadRequestStatusIfFalse(passwordChecker.hasUppercaseLetter(password), "Password should have upperCase letters.");

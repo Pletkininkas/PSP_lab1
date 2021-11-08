@@ -33,8 +33,10 @@ public class UserControllerTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
+    private final String requestMapping = "/user/";
+
     @Test
-    void getAllUsers() throws Exception {
+    void testGetAllUsers() throws Exception {
         List<User> users = Arrays.asList(
                 new User(1L, "Kestas", "Kestauskas", "+37063123823", "kkestas@gmail.com", "VILNIUS", "qwasdd!qw123"),
                 new User(2L, "Testas", "Tests", "+37063123823", "ttestas@gmail.com", "VILNIUS", "ads1swqwed1!")
@@ -45,7 +47,7 @@ public class UserControllerTest {
         when(userService.findAll()).thenReturn(users);
 
         RequestBuilder rb = MockMvcRequestBuilders
-                .get("/")
+                .get(requestMapping)
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(rb)
@@ -57,14 +59,15 @@ public class UserControllerTest {
     }
 
     @Test
-    void getUserById() throws Exception {
+    void testGetUserById() throws Exception {
         Long id = 1L;
         User user = new User(id, "Kestas", "Kestauskas", "+37063123823", "kkestas@gmail.com", "VILNIUS", "qwasdd!qw123");
+        String expectedUser = objectMapper.writeValueAsString(user);
 
         when(userService.findById(Mockito.anyLong())).thenReturn(user);
 
         RequestBuilder rb = MockMvcRequestBuilders
-                .get("/" + id)
+                .get(requestMapping + id)
                 .accept(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(rb)
@@ -72,21 +75,18 @@ public class UserControllerTest {
                 .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
-        String expectedUser = objectMapper.writeValueAsString(user);
-
         JSONAssert.assertEquals(expectedUser, result.getResponse().getContentAsString(), false);
     }
 
     @Test
-    void addUser() throws Exception {
+    void testAddUser() throws Exception {
         User user = new User(1L, "Kestas", "Kestauskas", "+37063123823", "kkestas@gmail.com", "VILNIUS", "qwasdd!qw123");
+        String userJson = objectMapper.writeValueAsString(user);
 
         when(userService.add(Mockito.any(User.class))).thenReturn(user);
 
-        String userJson = objectMapper.writeValueAsString(user);
-
         RequestBuilder rb = MockMvcRequestBuilders
-                .post("/")
+                .post(requestMapping)
                 .content(userJson)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
@@ -100,27 +100,34 @@ public class UserControllerTest {
     }
 
     @Test
-    void updateUser() throws Exception {
-        User user = new User(1L, "Kestas", "Kestauskas", "+37063123823", "kkestas@gmail.com", "VILNIUS", "qwaASD_qw123");
-
+    void testUpdateUser() throws Exception {
+        User user = new User(1L, "TEST", "NAME", "+37063123823", "kkestas@gmail.com", "VILNIUS", "qwaASD_qw123");
         String userJson = objectMapper.writeValueAsString(user);
 
+        when(userService.update(Mockito.any(User.class))).thenReturn(user);
+        when(userService.findById(Mockito.anyLong())).thenReturn(user);
+
         RequestBuilder rb = MockMvcRequestBuilders
-                .put("/")
+                .put(requestMapping)
                 .content(userJson)
                 .contentType(MediaType.APPLICATION_JSON);
 
-        mockMvc.perform(rb)
-                .andExpect(MockMvcResultMatchers.status().isNoContent())
+        MvcResult result = mockMvc.perform(rb)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
+
+        JSONAssert.assertEquals(userJson, result.getResponse().getContentAsString(), false);
     }
 
     @Test
-    void deleteUserById() throws Exception {
-        when(userService.findById(Mockito.anyLong())).thenReturn(new User());
+    void testDeleteUserById() throws Exception {
+        User user = new User(1L, "Test1", "Surname", "+37061234561", "test@test.com", "Location place", "Pass123_");
+
+        when(userService.findById(Mockito.anyLong())).thenReturn(user);
 
         RequestBuilder rb = MockMvcRequestBuilders
-                .delete("/" + 1L);
+                .delete(requestMapping + user.getId());
 
         mockMvc.perform(rb)
                 .andExpect(MockMvcResultMatchers.status().isOk())

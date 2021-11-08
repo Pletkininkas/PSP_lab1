@@ -36,14 +36,14 @@ public class UserTest {
     }
 
     @Test
-    void testEquals() {
+    void testUserEquals() {
         User user1 = new User("Name", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         User user2 = new User("Name", "Surname", "+3706123456", "test@test.com", "Location place", "Pass123_");
         assertEquals(user1, user2);
     }
 
     @Test
-    void testSetId() {
+    void testUserSetId() {
         Long newId = 123L;
         User user = new User();
 
@@ -53,7 +53,7 @@ public class UserTest {
     }
 
     @Test
-    void testSetName() {
+    void testUserSetName() {
         String newName = "test";
         User user = new User();
 
@@ -63,7 +63,7 @@ public class UserTest {
     }
 
     @Test
-    void testSetSurname() {
+    void testUserSetSurname() {
         String newName = "test";
         User user = new User();
 
@@ -73,7 +73,7 @@ public class UserTest {
     }
 
     @Test
-    void testSetPhoneNumber() {
+    void testUserSetPhoneNumber() {
         String newPhoneNumber = "+3706123456";
         User user = new User();
 
@@ -83,7 +83,7 @@ public class UserTest {
     }
 
     @Test
-    void testSetEmail() {
+    void testUserSetEmail() {
         String newEmail = "test@test.com";
         User user = new User();
 
@@ -93,7 +93,7 @@ public class UserTest {
     }
 
     @Test
-    void testSetAddress() {
+    void testUserSetAddress() {
         String newAddress = "Location place";
         User user = new User();
 
@@ -103,7 +103,7 @@ public class UserTest {
     }
 
     @Test
-    void testSetPassword() {
+    void testUserSetPassword() {
         String newPassword = "Pass123_";
         User user = new User();
 

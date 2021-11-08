@@ -31,10 +31,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public void update(User user) {
+    public User update(User user) {
         userValidator.validateUser(user);
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
     public void deleteById(Long id) {
