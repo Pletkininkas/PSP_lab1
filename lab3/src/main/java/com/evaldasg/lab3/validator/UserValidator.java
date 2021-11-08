@@ -39,7 +39,7 @@ public class UserValidator {
             throwBadRequestStatusIfFalse(emailValidator.topLevelDomainValidator(email), "Email top level domain is invalid.");
             throwBadRequestStatusIfFalse(emailValidator.hasInvalidSymbol(email), "Email has invalid symbol.");
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong processing password. Contact administration.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong processing email. Contact administration.");
         }
     }
 
@@ -54,7 +54,7 @@ public class UserValidator {
 
             throwBadRequestStatusIfFalse(valid, "Phone number from this country is not supported.");
         } catch (IOException e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong processing password. Contact administration.");
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Something went wrong processing phone number. Contact administration.");
         }
     }
 
